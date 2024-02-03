@@ -1,14 +1,13 @@
 <?php
 
-use FontLib\Table\Type\post;
+defined('BASEPATH') or exit('No direct script access allowed');
 
-defined('BASEPATH') OR exit('No direct script access allowed');
-
-class Laporan extends CI_Controller {
-    public function __construct()
+class Laporan extends CI_Controller
+{
+	public function __construct()
 	{
 		parent::__construct();
-		if(!$this->session->userdata('userdata')){
+		if (!$this->session->userdata('userdata')) {
 			redirect('/');
 		}
 	}
@@ -35,7 +34,6 @@ class Laporan extends CI_Controller {
 		$this->data['date1'] = $tglMulai;
 		$this->data['date2'] = $tglSelesai;
 
-
 		$this->data['title_pdf'] = 'Laporan Pengajuan Cuti';
 		$file_pdf = 'LaporanPengajuanCuti';
 		$paper = 'A4';
@@ -45,25 +43,26 @@ class Laporan extends CI_Controller {
 	}
 
 	public function kirim()
-	{	$bulan = $this->input->post('bulan');
+	{
+		$bulan = $this->input->post('bulan');
 		$tahun =  $this->input->post('tahun');
 		$config['upload_path'] = './assets/upload/file/';
 		$config['allowed_types'] = 'pdf';
-		$config['file_name'] = 'Reporting_'.$tahun.'_'.$bulan;
+		$config['file_name'] = 'Reporting_' . $tahun . '_' . $bulan;
 		$config['max_size'] = 2048;
 		$this->load->library('upload', $config);
-		if(!$this->upload->do_upload('file')){
+		if (!$this->upload->do_upload('file')) {
 			$this->session->set_flashdata('msg', 'Laporan Gagal Dikirim');
 			redirect('laporan');
-		}else{
+		} else {
 			$upload = $this->upload->data();
 			$data = [
 				'tgl_pelaporan' => date('Y-m-d'),
-				'periode_laporan' => $bulan.' '.$tahun,
+				'periode_laporan' => $bulan . ' ' . $tahun,
 				'file' => $upload['file_name'],
 			];
 			$insert = $this->db->insert('tbl_laporan', $data);
-			if($insert){
+			if ($insert) {
 				$this->session->set_flashdata('msg', 'Laporan berhasil dikirim');
 				redirect('laporan');
 			}
@@ -77,13 +76,12 @@ class Laporan extends CI_Controller {
 		$this->db->from('tbl_laporan');
 		$this->db->where('id_laporan', $id);
 		$query = $this->db->get();
-		
+
 		// Check if the record exists
 		if ($query->num_rows() > 0) {
 			$row = $query->row();
 			$fileToDelete = $row->file;
-			
-			// var_dump('ada');die;
+
 			$filePath = './assets/upload/file/' . $fileToDelete;
 			if (file_exists($filePath)) {
 				unlink($filePath);
@@ -95,13 +93,9 @@ class Laporan extends CI_Controller {
 				$this->session->set_flashdata('msg', 'Laporan gagal dihapus');
 				redirect('laporan');
 			}
-
-			
 		} else {
-			var_dump('tidak ad');die;
 			$this->session->set_flashdata('msg', 'Laporan gagal dihapus');
 			redirect('laporan');
 		}
 	}
-
 }

@@ -60,7 +60,7 @@
                 <td rowspan="2" width="10%">
                     <img src="<?= base_url('assets/img/logo.png'); ?>" height="50px" alt="logo">
                 </td>
-                <td width="90%" colspan="3" class="tocenter tittle">Laporan Pengajuan Cuti Karyawan</td>
+                <td width="90%" colspan="3" class="tocenter tittle">Laporan Pengajuan Cuti Karyawan <br>PT. MCA INDONESIA</td>
             </tr>
             <tr>
                 <td colspan="3" class="tocenter txtsmall">Tanggal :<?= $date1; ?> s/d <?= $date2; ?></td>
@@ -76,6 +76,7 @@
                 <td class="tocenter txtsmall">NIK</td>
                 <td class="txtsmall">Jabatan</td>
                 <td class="tocenter txtsmall">Jenis Cuti</td>
+                <td class="tocenter txtsmall">Tanggal Pengajuan</td>
                 <td class="tocenter txtsmall">Tanggal Mulai</td>
                 <td class="tocenter txtsmall">Tanggal Selesai</td>
                 <td class="tocenter txtsmall">Lama Cuti</td>
@@ -89,9 +90,10 @@
                     <td class="txtsmall"><?= $d['nik']; ?></td>
                     <td class="txtsmall"><?= $d['nama_jabatan']; ?></td>
                     <td class="txtsmall"><?= $d['nama_cuti']; ?></td>
+                    <td class="tocenter txtsmall"><?= $d['tgl']; ?></td>
                     <td class="tocenter txtsmall"><?= $d['tgl_mulai']; ?></td>
                     <td class="tocenter txtsmall"><?= $d['tgl_selesai']; ?></td>
-                    <td class="tocenter txtsmall"><?= $d['lama_cuti']; ?></td>
+                    <td class="tocenter txtsmall"><?= $d['lama_cuti']; ?> Hari</td>
                     <td class="tocenter txtsmall"><?= $d['status']; ?></td>
                 </tr>
             <?php endforeach; ?>

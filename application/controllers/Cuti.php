@@ -1,7 +1,8 @@
 <?php
-defined('BASEPATH') OR exit('No direct script access allowed');
+defined('BASEPATH') or exit('No direct script access allowed');
 
-class Cuti extends CI_Controller {
+class Cuti extends CI_Controller
+{
 	public function __construct()
 	{
 		parent::__construct();
@@ -13,7 +14,7 @@ class Cuti extends CI_Controller {
 	{
 		$userdata = $this->session->userdata('userdata');
 		$data['user'] = $this->AdminModel->getKaryawanById($userdata['id'])->row_array();
-		$data['jenis_cuti'] = $this->AdminModel->getAllJenisCuti()->result_array();		
+		$data['jenis_cuti'] = $this->AdminModel->getAllJenisCuti()->result_array();
 		$this->load->view('template/header.php');
 		$this->load->view('template/sidebar.php');
 		$this->load->view('cuti/index.php', $data);
@@ -28,6 +29,10 @@ class Cuti extends CI_Controller {
 		$selisihDetik = $tglSelesai - $tglMulai;
 		$lamaCutiHari = floor($selisihDetik / (60 * 60 * 24));
 		$getSisaCuti = $this->AdminModel->getKaryawanById($userdata['id'])->row_array();
+		if ($getSisaCuti['kuota_cuti'] < $lamaCutiHari) {
+			$this->session->set_flashdata('failed', 'Pengajuan cuti gagal, sisa cuti anda kurang dari jumlah pengajuan cuti');
+			redirect('pengajuan_cuti');
+		}
 		$data = [
 			'tgl' => date('Y-m-d'),
 			'id_jeniscuti' => $this->input->post('jenis'),
@@ -41,7 +46,7 @@ class Cuti extends CI_Controller {
 			'sisa_cuti ' => $getSisaCuti['kuota_cuti'],
 		];
 		$insert = $this->db->insert('tbl_cuti', $data);
-		if($insert){
+		if ($insert) {
 			$this->session->set_flashdata('msg', 'Data berhasil terkrim, silahkan menunggu persetujuan dari HRD');
 			redirect('pengajuan_cuti');
 		}

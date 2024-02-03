@@ -1,11 +1,16 @@
 <aside class="right-side">
     <section class="content" id="content-add">
-        
+
         <h3>Form Pengajuan Cuti</h3>
         <div class="row">
             <?php if ($this->session->flashdata('msg')) : ?>
                 <div class="alert alert-success">
                     <?= $this->session->flashdata('msg'); ?>
+                </div>
+            <?php endif; ?>
+            <?php if ($this->session->flashdata('failed')) : ?>
+                <div class="alert alert-danger">
+                    <?= $this->session->flashdata('failed'); ?>
                 </div>
             <?php endif; ?>
             <div class="col-md-12 col-lg-12">
@@ -97,3 +102,9 @@
         </div>
     </section>
 </aside>
+
+<script>
+    $(function() {
+        const flashdata = $('.')
+    })
+</script>

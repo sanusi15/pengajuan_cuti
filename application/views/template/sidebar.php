@@ -17,7 +17,7 @@
         <!-- /.search form -->
         <!-- sidebar menu: : style can be found in sidebar.less -->
         <ul class="sidebar-menu">
-            <?php if ($this->session->userdata('userdata')['level'] == 0) : ?>
+            <?php if ($this->session->userdata('userdata')['level'] == 0 || $this->session->userdata('userdata')['level'] == 1) : ?>
                 <li class="<?= ($this->uri->segment(1) == 'dashboard') ? 'active' : '' ?>">
                     <a href="<?= base_url('dashboard'); ?>">
                         <i class="fa fa-dashboard"></i> <span>Dashboard</span>

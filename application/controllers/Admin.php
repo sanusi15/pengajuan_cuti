@@ -1,7 +1,8 @@
 <?php
-defined('BASEPATH') OR exit('No direct script access allowed');
+defined('BASEPATH') or exit('No direct script access allowed');
 
-class Admin extends CI_Controller {
+class Admin extends CI_Controller
+{
 	public function __construct()
 	{
 		parent::__construct();
@@ -12,23 +13,26 @@ class Admin extends CI_Controller {
 
 	public function index()
 	{
-		$userdata = $this->session->userdata('userdata');		
+		$userdata = $this->session->userdata('userdata');
 		$data['user'] = $this->AdminModel->getKaryawanById($userdata['id'])->row_array();
 		$data['level'] = $userdata['level'] == 1 ? 'Admin' : 'Manager';
 		$data['jml_karyawan'] = $this->AdminModel->getAllKaryawan()->num_rows();
 		$data['jml_cuti'] = $this->AdminModel->getJmlCutiBulanIni('')->num_rows();
-		$data['jml_cutiditerima'] =
-		$this->AdminModel->getJmlCutiBulanIni('Diterima')->num_rows();
+		$data['jml_cutiditerima'] = $this->AdminModel->getJmlCutiBulanIni('Diterima')->num_rows();
 		$data['jml_cutipending'] = $this->AdminModel->getJmlCutiBulanIni('Pending')->num_rows();
 		$data['jml_cutiditolak'] = $this->AdminModel->getJmlCutiBulanIni('Ditolak')->num_rows();
 		$this->load->view('template/header.php');
 		$this->load->view('template/sidebar.php');
-		$this->load->view('admin/index.php', $data);
+		if ($userdata['level'] == 1) {
+			$this->load->view('admin/index.php', $data);
+		} else {
+			redirect('laporan');
+		}
 		$this->load->view('template/footer.php');
 	}
 
 	public function karyawan()
-	{		
+	{
 		$data['karyawan'] = $this->AdminModel->getAllKaryawan()->result_array();
 		$data['jabatan'] = $this->AdminModel->getAllJabatan()->result_array();
 		$this->load->view('template/header.php');
@@ -70,7 +74,7 @@ class Admin extends CI_Controller {
 		];
 		$this->db->where('id_karyawan', $id);
 		$update = $this->db->update('tbl_karyawan', $data);
-		if($update){
+		if ($update) {
 			$this->session->set_flashdata('msg', 'Data berhasil diubah');
 			redirect('Admin/karyawan');
 		}
@@ -112,19 +116,19 @@ class Admin extends CI_Controller {
 
 		$this->db->insert('tbl_users', $data);
 
-		if($insert){
+		if ($insert) {
 			$this->session->set_flashdata('msg', 'Data berhasil ditambah');
 			redirect('Admin/karyawan');
 		}
 	}
-	
+
 	public function deleteKaryawan()
 	{
 		$nik = $this->input->post('nik');
 		$delete = $this->db->delete('tbl_karyawan', ['nik' => $nik]);
-		if($delete){
+		if ($delete) {
 			$res = 'sukses';
-		}else{
+		} else {
 			$res = 'gagal';
 		}
 		echo $res;
@@ -140,7 +144,7 @@ class Admin extends CI_Controller {
 	}
 
 	public function addJenisCuti()
-	{		
+	{
 		$data = [
 			'nama_cuti' => $this->input->post('nama'),
 		];
@@ -161,7 +165,7 @@ class Admin extends CI_Controller {
 	public function editJenisCuti()
 	{
 		$id = $this->input->post('id');
-		$nama = $this->input->post('nama');		
+		$nama = $this->input->post('nama');
 
 		$data = [
 			'nama_cuti' => $nama,
@@ -244,9 +248,9 @@ class Admin extends CI_Controller {
 
 	public function cutiKaryawan($status)
 	{
-		if($status == 'all'){
-			$data['cutikaryawan'] = $this->AdminModel->getAllCutiKaryawan()->result_array();			
-		}else{
+		if ($status == 'all') {
+			$data['cutikaryawan'] = $this->AdminModel->getAllCutiKaryawan()->result_array();
+		} else {
 			$data['cutikaryawan'] = $this->AdminModel->getCutiKaryawanByStatus($status)->result_array();
 		}
 		$this->load->view('template/header.php');
@@ -269,28 +273,28 @@ class Admin extends CI_Controller {
 		$id = $this->input->post('id');
 		$nik = $this->input->post('id_karyawan');
 		$lama_cuti = $this->input->post('lama_cuti');
-		$submit = $this->input->post('submit');		
+		$submit = $this->input->post('submit');
 		$jenis_cuti = $this->input->post('jenis_cuti');
-		if($submit == 'Diterima'){
+		if ($submit == 'Diterima') {
 			$getKaryawan = $this->AdminModel->getKaryawanByNik($nik)->row_array();
-			$kuota = $getKaryawan['kuota_cuti'] - $lama_cuti;			
-// 			if($jenis_cuti == 1){
-				if($kuota <= 0){
-					$this->session->set_flashdata('msg', 'Sisa cuti tidak cukup');
-					redirect('Admin/cutiKaryawan');
-				}else{
-					$data = [
-						'kuota_cuti' => $kuota,
-					];
-					$this->db->where('nik', $nik);
-					$this->db->update('tbl_karyawan', $data);
-					$data2 = [
-						'sisa_cuti' => $kuota,
-					];
-					$this->db->where('id_cuti', $id);
-					$this->db->update('tbl_cuti', $data2);
-				}
-// 			}
+			$kuota = $getKaryawan['kuota_cuti'] - $lama_cuti;
+			// 			if($jenis_cuti == 1){
+			if ($kuota <= 0) {
+				$this->session->set_flashdata('msg', 'Sisa cuti tidak cukup');
+				redirect('Admin/cutiKaryawan');
+			} else {
+				$data = [
+					'kuota_cuti' => $kuota,
+				];
+				$this->db->where('nik', $nik);
+				$this->db->update('tbl_karyawan', $data);
+				$data2 = [
+					'sisa_cuti' => $kuota,
+				];
+				$this->db->where('id_cuti', $id);
+				$this->db->update('tbl_cuti', $data2);
+			}
+			// 			}
 		}
 		$data = [
 			'alasan' => $this->input->post('alasan'),
@@ -302,7 +306,6 @@ class Admin extends CI_Controller {
 			$this->session->set_flashdata('msg', 'Data berhasil diubah');
 			redirect('Admin/cutiKaryawan/all');
 		}
-
 	}
 
 	public function profile()
@@ -310,11 +313,11 @@ class Admin extends CI_Controller {
 		$userdata = $this->session->userdata('userdata');
 		$data['user'] = $this->AdminModel->getKaryawanById($userdata['id'])->row_array();
 		$data['level'] = $userdata['level'] == 1 ? 'Admin' : 'Anggota';
-		if($userdata['level'] == 1){
+		if ($userdata['level'] == 1) {
 			$data['level'] = 'Admin';
-		}elseif($userdata['level'] == 2){
+		} elseif ($userdata['level'] == 2) {
 			$data['level'] = 'Manager';
-		}else{
+		} else {
 			$data['level'] = 'Pegawai';
 		}
 		$data['user2'] = $this->db->get_where('tbl_users', ['id_karyawan' => $userdata['id']])->row_array();
@@ -325,9 +328,9 @@ class Admin extends CI_Controller {
 	}
 
 	public function editProfile()
-	{		
-		
-		$userdata = $this->session->userdata('userdata');		
+	{
+
+		$userdata = $this->session->userdata('userdata');
 		$nama = $this->input->post('nama');
 		$nik = $this->input->post('nik');
 		$gender = $this->input->post('gender');
@@ -347,10 +350,10 @@ class Admin extends CI_Controller {
 			'telp' => $tlp,
 			'agama' => $agama,
 		];
-		
+
 		$this->db->where('id_karyawan', $userdata['id']);
 		$update = $this->db->update('tbl_karyawan', $data);
-		
+
 		if ($this->input->post('password') != null) {
 			$data2 = [
 				'username' => $this->input->post('username'),
@@ -358,9 +361,9 @@ class Admin extends CI_Controller {
 			];
 		} else {
 			$data2 = [
-				'username' => $this->input->post('username'),			
+				'username' => $this->input->post('username'),
 			];
-		}	
+		}
 		$this->db->where('id_karyawan', $userdata['id']);
 		$update = $this->db->update('tbl_users', $data2);
 
@@ -369,5 +372,4 @@ class Admin extends CI_Controller {
 			redirect('Admin/profile');
 		}
 	}
-
 }

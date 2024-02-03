@@ -28,10 +28,10 @@ class Auth extends CI_Controller
                 'nama' => $karyawan['nama'],
             ];
             $this->session->set_userdata('userdata', $data);
-            if ($data['level'] == 1) {
-                redirect('admin');
-            } else {
+            if ($data['level'] == 0) {
                 redirect('karyawan');
+            } else {
+                redirect('admin');
             }
         }
     }
