@@ -60,7 +60,7 @@
                 <td rowspan="2" width="10%">
                     <img src="<?= base_url('assets/img/logo.png'); ?>" height="50px" alt="logo">
                 </td>
-                <td width="90%" colspan="3" class="tocenter tittle">Laporan Pengajuan Cuti Karyawan <br>PT. MCA INDONESIA</td>
+                <td width="90%" colspan="3" class="tocenter tittle">Laporan Pengajuan Cuti Karyawan <br>PT. MCA INDONESIA</td> 
             </tr>
             <tr>
                 <td colspan="3" class="tocenter txtsmall">Tanggal :<?= $date1; ?> s/d <?= $date2; ?></td>
@@ -100,14 +100,14 @@
         </table>
         <table class="tableFoot" width="100%">
             <tr>
-                <td>Menyetujui</td>
+                <td>Disetujui</td>
                 <td></td>
                 <td>Mengetahui</td>
             </tr>
             <tr>
-                <td>HRD</td>
+                <td><div>HRD</div> Amirudin</td>
                 <td></td>
-                <td>Manajer</td>
+                <td><div>Manager</div> Amirudin</td>
             </tr>
         </table>
     </div>

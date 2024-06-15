@@ -27,7 +27,7 @@ class Cuti extends CI_Controller
 		$tglMulai = strtotime($this->input->post('tgl_mulai'));
 		$tglSelesai = strtotime($this->input->post('tgl_selesai'));
 		$selisihDetik = $tglSelesai - $tglMulai;
-		$lamaCutiHari = floor($selisihDetik / (60 * 60 * 24));
+		$lamaCutiHari = floor($selisihDetik / (60 * 60 * 24)) + 1;
 		$getSisaCuti = $this->AdminModel->getKaryawanById($userdata['id'])->row_array();
 		if ($getSisaCuti['kuota_cuti'] < $lamaCutiHari) {
 			$this->session->set_flashdata('failed', 'Pengajuan cuti gagal, sisa cuti anda kurang dari jumlah pengajuan cuti');

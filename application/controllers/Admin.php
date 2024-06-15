@@ -145,13 +145,19 @@ class Admin extends CI_Controller
 
 	public function addJenisCuti()
 	{
-		$data = [
-			'nama_cuti' => $this->input->post('nama'),
-		];
-		$insert = $this->db->insert('tbl_jeniscuti', $data);
-		if ($insert) {
-			$this->session->set_flashdata('msg', 'Data berhasil ditambah');
+		$this->form_validation->set_rules('nama', 'Nama', 'is_unique[tbl_jeniscuti.nama_cuti]');
+		if($this->form_validation->run() == FALSE){
+			$this->session->set_flashdata('msg2', 'Gagal! Data sudah ada');
 			redirect('Admin/jeniscuti');
+		}else{
+			$data = [
+				'nama_cuti' => $this->input->post('nama'),
+			];
+			$insert = $this->db->insert('tbl_jeniscuti', $data);
+			if ($insert) {
+				$this->session->set_flashdata('msg', 'Data berhasil ditambah');
+				redirect('Admin/jeniscuti');
+			}
 		}
 	}
 
@@ -201,13 +207,19 @@ class Admin extends CI_Controller
 
 	public function addJabatan()
 	{
-		$data = [
-			'nama_jabatan' => $this->input->post('nama'),
-		];
-		$insert = $this->db->insert('tbl_jabatan', $data);
-		if ($insert) {
-			$this->session->set_flashdata('msg', 'Data berhasil ditambah');
+		$this->form_validation->set_rules('nama', 'Nama', 'is_unique[tbl_jabatan.nama_jabatan]');
+		if($this->form_validation->run() == FALSE){
+			$this->session->set_flashdata('msg2', 'Gagal! Data sudah ada');
 			redirect('Admin/jabatan');
+		}else{
+			$data = [
+				'nama_jabatan' => $this->input->post('nama'),
+			];
+			$insert = $this->db->insert('tbl_jabatan', $data);
+			if ($insert) {
+				$this->session->set_flashdata('msg', 'Data berhasil ditambah');
+				redirect('Admin/jabatan');
+			}
 		}
 	}
 
@@ -279,7 +291,7 @@ class Admin extends CI_Controller
 			$getKaryawan = $this->AdminModel->getKaryawanByNik($nik)->row_array();
 			$kuota = $getKaryawan['kuota_cuti'] - $lama_cuti;
 			// 			if($jenis_cuti == 1){
-			if ($kuota <= 0) {
+			if ($kuota < 0) {
 				$this->session->set_flashdata('msg', 'Sisa cuti tidak cukup');
 				redirect('Admin/cutiKaryawan');
 			} else {

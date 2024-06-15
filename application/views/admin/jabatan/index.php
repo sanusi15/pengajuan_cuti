@@ -5,11 +5,6 @@
                 <div class="box box-primary">
                     <form id="myForm" action="<?= base_url('admin/addJabatan'); ?>" method="POST">
                         <div class="box-body">
-                            <?php if ($this->session->flashdata('msg')) : ?>
-                                <div class="alert alert-success">
-                                    <?= $this->session->flashdata('msg'); ?>
-                                </div>
-                            <?php endif; ?>
                             <input type="hidden" value="" name="id">
                             <div class="row">
                                 <div class="col-md-12 col-lg-12">
@@ -31,6 +26,16 @@
             </div>
         </div>
     </section>
+     <?php if ($this->session->flashdata('msg')) : ?>
+            <div class="alert alert-success">
+                <?= $this->session->flashdata('msg'); ?>
+            </div>
+        <?php endif; ?>
+        <?php if ($this->session->flashdata('msg2')) : ?>
+            <div class="alert alert-danger">
+                <?= $this->session->flashdata('msg2'); ?>
+            </div>
+    <?php endif; ?>
     <section class="content">
         <div style="display:flex; justify-content:space-between;align-items:center;">
             <div>

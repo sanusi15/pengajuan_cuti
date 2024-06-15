@@ -91,7 +91,7 @@
                         <input type="hidden" value="<?= $cuti['nik']; ?>" name="id_karyawan">
                         <input type="hidden" value="<?= $cuti['lama_cuti']; ?>" name="lama_cuti">
                         <input type="hidden" value="<?= $cuti['id_jeniscuti']; ?>" name="jenis_cuti">
-                        <textarea class="form-control" name="alasan" id="alasan" cols="30" rows="5">Alasan..</textarea>
+                        <textarea required class="form-control" name="alasan" id="alasan" cols="30" rows="5"></textarea>
                         <a href="<?= base_url('admin/cutiKaryawan/all'); ?>" class="btn btn-primary" style="margin: 20px 10px; float:right; text-decoration:none;">Kembali</a>
                         <button name="submit" value="Ditolak" class="btn btn-danger" style="margin: 20px 5px; float:right">Tolak</button>
                         <button name="submit" value="Diterima" class="btn btn-success" style="margin: 20px 5px; float:right">Terima</button>

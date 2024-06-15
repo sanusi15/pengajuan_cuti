@@ -61,6 +61,7 @@
                                                     <option value="Septermber">Septermber</option>
                                                     <option value="November">November</option>
                                                     <option value="Desember">Desember</option>
+                                                    <option value="Tahunan">Tahunan</option>
                                                 </select>
                                             </div>
                                         </div>

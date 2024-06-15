@@ -50,7 +50,7 @@
                                     <label for="">Jenis Kelamin</label>
                                     <select name="gender" id="" class="form-control" name="gender">
                                         <option <?= ($user['gender'] == 'Laki-Laki') ? 'selected' : ''; ?> value="Laki-Laki">Laki-Laki</option>
-                                        <option <?= ($user['gender'] == 'Peerempaun') ? 'selected' : ''; ?> value="Peerempaun">Peerempaun</option>
+                                        <option <?= ($user['gender'] == 'Perempuan') ? 'selected' : ''; ?> value="Peerempaun">Peerempaun</option>
                                     </select>
                                 </div>
                                 <div class="col-md-6">
@@ -59,7 +59,10 @@
                                         <option <?= ($user['agama'] == 'Islam') ? 'selected' : ''; ?> value="Islam">Islam</option>
                                         <option <?= ($user['agama'] == 'Kristen') ? 'selected' : ''; ?> value="Kristen">Kristen</option>
                                         <option <?= ($user['agama'] == 'Hindu') ? 'selected' : ''; ?> value="Hindu">Hindu</option>
-                                        <option <?= ($user['agama'] == 'Lainnya') ? 'selected' : ''; ?> value="Lainnya">Lainnya</option>
+                                        <option <?= ($user['agama'] == 'Buddha') ? 'selected' : ''; ?> value="Buddha">Buddha</option>
+                                        <option <?= ($user['agama'] == 'Katolik') ? 'selected' : ''; ?> value="Katolik">Katolik</option>
+                                        <option <?= ($user['agama'] == 'Khonghucu') ? 'selected' : ''; ?> value="Khonghucu">Khonghucu</option>
+                    
                                     </select>
                                 </div>
                                 <div class="col-md-6">

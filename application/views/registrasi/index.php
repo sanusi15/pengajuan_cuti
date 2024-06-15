@@ -38,7 +38,8 @@
                         <div class="col-md-6">
                             <div class="mb-3">
                                 <label for="exampleFormControlInput1" class="form-label">Nama Lengkap</label>
-                                <input type="text" class="form-control" name="nama">
+                                <input type="text" class="form-control txtinput" name="nama" autocomplete="off">
+                                <small class="text-danger" hidden>Input hanya huruf</small>
                             </div>
                             <div class="mb-3">
                                 <label for="exampleFormControlInput1" class="form-label">Jenis Kelamin</label>
@@ -50,21 +51,25 @@
                             </div>
                             <div class="mb-3">
                                 <label for="exampleFormControlInput1" class="form-label">Tempat Lahir</label>
-                                <input type="text" class="form-control" name="tempat_lahir">
+                                <input type="text" class="form-control txtinput" name="tempat_lahir" autocomplete="off">
+                                <small class="text-danger" hidden>Input hanya huruf</small>
                             </div>
                             <div class="mb-3">
                                 <label for="exampleFormControlInput1" class="form-label">No Telpon</label>
-                                <input type="text" class="form-control" name="no_telp">
+                                <input type="text" class="form-control number" name="no_telp">
+                                <small class="text-danger" hidden>Input hanya angka</small>
                             </div>
                             <div class="mb-3">
                                 <label for="exampleFormControlInput1" class="form-label">Alamat</label>
-                                <input type="text" class="form-control" name="alamat">
+                                <input type="text" class="form-control txtinput" name="alamat" autocomplete="off">
+                                <small class="text-danger" hidden>Input hanya huruf</small>
                             </div>
                         </div>
                         <div class="col-md-6">
                             <div class="mb-3">
                                 <label for="exampleFormControlInput1" class="form-label">NIK</label>
-                                <input type="text" class="form-control" name="nik">
+                                <input type="text" class="form-control number" name="nik">
+                                <small class="text-danger" hidden>Input hanya angka</small>
                             </div>
                             <div class="mb-3">
                                 <label for="exampleFormControlInput1" class="form-label">Posisi/Jabatan</label>
@@ -86,7 +91,10 @@
                                     <option value="Islam">Islam</option>
                                     <option value="Kristen">Kristen</option>
                                     <option value="Hindu">Hindu</option>
-                                    <option value="Lainnya">Lainnya</option>
+                                    <option value="Katolik">Katolik</option>
+                                    <option value="Buddha">Buddha</option>
+                                    <option value="Khonghucu">Khonghucu</option>
+        
                                 </select>
                             </div>
                         </div>
@@ -125,6 +133,20 @@
     <script src="https://cdn.jsdelivr.net/npm/sweetalert2@11"></script>
     <script>
         $(function() {
+
+            $('.txtinput').on('keypress', function(event) {
+                var charCode = event.which;
+                if (charCode === 8 || charCode === 46 || charCode === 9 || charCode === 27 || charCode === 13 || charCode === 32) {
+                    return;
+                }
+                if (charCode >= 48 && charCode <= 57) {
+                    $(this).siblings('small').removeAttr('hidden')
+                    event.preventDefault();
+                }else{
+                    $(this).siblings('small').attr('hidden', true)
+                }
+            });
+
             $('#myForm').submit(function(e) {
                 e.preventDefault()
                 var pw1 = $('#pw1').val()
@@ -175,6 +197,12 @@
                     }
                 }
             })
+
+            $('.number').keyup(function () {
+                const res = this.value = this.value.replace(/[^0-9\.]/g,'');
+            });
+    
+
         })
     </script>
 
